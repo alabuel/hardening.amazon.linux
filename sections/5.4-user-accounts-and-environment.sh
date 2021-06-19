@@ -87,6 +87,6 @@ skip "Remove entries in /etc/securetty for any consoles that are not in a physic
 
 # 5.6 Ensure access to the su command is restricted (Scored)
 log "CIS" "5.6 Ensure access to the su command is restricted (Scored)"
-line_replace "/etc/pam.d/su" "^auth required pam_wheel.so" "auth required pam_wheel.so use_uid"
+line_replace "/etc/pam.d/su" "^auth required pam_wheel\.so" "auth required pam_wheel.so use_uid"
 line_add "/etc/group" "wheel:x:10:${SU_USER_LIST}"
 

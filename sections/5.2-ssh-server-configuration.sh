@@ -50,11 +50,11 @@ line_replace "/etc/ssh/sshd_config" "^PermitRootLogin" "PermitRootLogin ${SSH_PE
 
 # 5.2.11 Ensure SSH PermitEmptyPasswords is disabled (Scored)
 log "CIS" "5.2.11 Ensure SSH PermitEmptyPasswords is disabled (Scored)"
-line_replace "/etc/ssh/sshd_config" "^PermitEmptyPasswords ${SSH_PERMIT_EMPTY_PASSWORDS}"
+line_replace "/etc/ssh/sshd_config" "^PermitEmptyPasswords" "PermitEmptyPasswords ${SSH_PERMIT_EMPTY_PASSWORDS}"
 
 # 5.2.12 Ensure SSH PermitUserEnvironment is disabled (Scored)
 log "CIS" "5.2.12 Ensure SSH PermitUserEnvironment is disabled (Scored)"
-line_replace "/etc/ssh/sshd_config" "^PermitUserEnvironment ${SSH_PERMIT_USER_ENVIRONMENT}"
+line_replace "/etc/ssh/sshd_config" "^PermitUserEnvironment" "PermitUserEnvironment ${SSH_PERMIT_USER_ENVIRONMENT}"
 
 # 5.2.13 Ensure only strong ciphers are used (Scored)
 log "CIS" "5.2.13 Ensure only strong ciphers are used (Scored)"
@@ -70,19 +70,19 @@ line_replace "/etc/ssh/sshd_config" "^KexAlgorithms " "KexAlgorithms ${SSH_STRON
 
 # 5.2.16 Ensure SSH Idle Timeout Interval is configured (Scored)
 log "CIS" "5.2.16 Ensure SSH Idle Timeout Interval is configured (Scored)"
-line_replace "/etc/ssh/sshd_config" "^ClientAliveInterval 300"
-line_replace "/etc/ssh/sshd_config" "^ClientAliveCountMax 0"
+line_replace "/etc/ssh/sshd_config" "^ClientAliveInterval" "ClientAliveInterval 300"
+line_replace "/etc/ssh/sshd_config" "^ClientAliveCountMax" "ClientAliveCountMax 0"
 
 # 5.2.17 Ensure SSH LoginGraceTime is set to one minute or less (Scored)
 log "CIS" "5.2.17 Ensure SSH LoginGraceTime is set to one minute or less (Scored)"
-line_replace "/etc/ssh/sshd_config" "^LoginGraceTime ${SSH_LOGIN_GRACE_TIME}"
+line_replace "/etc/ssh/sshd_config" "^LoginGraceTime" "LoginGraceTime ${SSH_LOGIN_GRACE_TIME}"
 
 # 5.2.18 Ensure SSH access is limited (Scored)
 log "CIS" "5.2.18 Ensure SSH access is limited (Scored)"
-[[ "$SSH_ALLOW_USERS" != "" ]] && line_replace "/etc/ssh/sshd_config" "^AllowUsers" "AllowUsers ${SSH_ALLOW_USERS}"
-[[ "$SSH_ALLOW_GROUPS" != "" ]] && line_replace "/etc/ssh/sshd_config" "^AllowGroups" "AllowGroups ${SSH_ALLOW_GROUPS}"
-[[ "$SSH_DENY_USERS" != "" ]] && line_replace "/etc/ssh/sshd_config" "^DenyUsers" "DenyUsers ${SSH_DENY_USERS}"
-[[ "$SSH_DENY_GROUPS" != "" ]] && line_replace "/etc/ssh/sshd_config" "^DenyGroups" "DenyGroups ${SSH_DENY_GROUPS}"
+[[ "$SSH_ALLOW_USERS" != "" ]] && line_replace "/etc/ssh/sshd_config" "^AllowUsers" "AllowUsers ${SSH_ALLOW_USERS}" || skip "no ssh allow users configured"
+[[ "$SSH_ALLOW_GROUPS" != "" ]] && line_replace "/etc/ssh/sshd_config" "^AllowGroups" "AllowGroups ${SSH_ALLOW_GROUPS}" || skip "no ssh allow groups configured"
+[[ "$SSH_DENY_USERS" != "" ]] && line_replace "/etc/ssh/sshd_config" "^DenyUsers" "DenyUsers ${SSH_DENY_USERS}" || skip "no ssh deny user configured"
+[[ "$SSH_DENY_GROUPS" != "" ]] && line_replace "/etc/ssh/sshd_config" "^DenyGroups" "DenyGroups ${SSH_DENY_GROUPS}" || skip "no ssh deny groups configured"
 
 # 5.2.19 Ensure SSH warning banner is configured (Scored)
 log "CIS" "5.2.19 Ensure SSH warning banner is configured (Scored)"

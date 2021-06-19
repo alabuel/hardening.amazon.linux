@@ -18,7 +18,7 @@ fi
 log "CIS" "4.2.1.2 Ensure logging is configured (Not Scored)"
 if [ "$USE_RSYSLOG" == true ]; then
   execute_command "cp templates/4.2.1.2-rsyslog.conf /etc/rsyslog.d/4.2.1.2-rsyslog.conf"
-  execute_command "pkill -HUP rsyslogd"
+  execute_command "pkill -HUP rsyslogd" "ignore"
 else
   skip "rsyslog not in use"
 fi
@@ -35,7 +35,7 @@ fi
 log "CIS" "4.2.1.3 Ensure rsyslog default file permissions configured (Scored)"
 if [ "$USE_RSYSLOG" == true ] && [ "$CENTRAL_LOG_HOST" != "" ]; then
   line_replace "/etc/rsyslog.conf" "^\*\.\*" "*.* @@${CENTRAL_LOG_HOST}"
-  execute_command "pkill -HUP rsyslogd"
+  execute_command "pkill -HUP rsyslogd" "ignore"
 else
   skip "need CENTRAL_LOG_HOST to send logs to a remote log host running syslogd"
 fi
@@ -45,7 +45,7 @@ log "CIS" "4.2.1.5 Ensure remote rsyslog messages are only accepted on designate
 if [ "$USE_RSYSLOG" == true ]; then
   line_replace "/etc/rsyslog.conf" "^\$ModLoad" "#\$ModLoad imtcp"
   line_replace "/etc/rsyslog.conf" "^\$InputTCPServerRun" "#\$InputTCPServerRun 514"
-  execute_command "pkill -HUP rsyslogd"
+  execute_command "pkill -HUP rsyslogd" "ignore"
 else
   skip "rsyslog not in use"
 fi
@@ -79,7 +79,9 @@ log "CIS" "4.2.2.4 Ensure syslog-ng is configured to send logs to a remote log h
 if [ "$USE_SYSLOG_NG" == true ] && [ "$CENTRAL_LOG_HOST" != "" ]; then
   line_add "/etc/syslog-ng/syslog-ng.conf" "destination logserver { tcp(\"${CENTRAL_LOG_HOST}\" port(514)); };"
   line_add "/etc/syslog-ng/syslog-ng.conf" "log { source(src); destination(logserver); };"
-  execute_command "pkill -HUP syslog-ng"
+  execute_command "pkill -HUP syslog-ng" "ignore"
+else
+  skip "syslog-ng not in use OR a central log host is not configured"
 fi
 
 # 4.2.2.5 Ensure remote syslog-ng messages are only accepted on designated log hosts (Not Scored)

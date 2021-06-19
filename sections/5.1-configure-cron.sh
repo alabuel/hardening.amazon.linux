@@ -41,8 +41,8 @@ execute_command "chmod og-rwx /etc/cron.d"
 
 # 5.1.8 Ensure at/cron is restricted to authorized users (Scored)
 log "CIS" "5.1.8 Ensure at/cron is restricted to authorized users (Scored)"
-execute_command "rm /etc/cron.deny"
-execute_command "rm /etc/at.deny"
+[ -f "/etc/cron.deny" ] && execute_command "rm /etc/cron.deny"
+[ -f "/etc/at.deny" ] && execute_command "rm /etc/at.deny"
 execute_command "touch /etc/cron.allow"
 execute_command "touch /etc/at.allow"
 execute_command "chmod og-rwx /etc/cron.allow"

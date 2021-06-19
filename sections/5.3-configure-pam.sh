@@ -19,11 +19,11 @@ log "CIS" "5.3.2 Ensure lockout for failed password attempts is configured (Scor
 line_add "/etc/pam.d/password-auth" "auth required pam_faillock.so preauth audit silent deny=5 unlock_time=900"
 line_add "/etc/pam.d/password-auth" "auth [default=die] pam_faillock.so authfail audit deny=5 unlock_time=900"
 line_add "/etc/pam.d/password-auth" "auth sufficient pam_faillock.so authsucc audit deny=5 unlock_time=900"
-line_replace "/etc/pam.d/password-auth" "^auth.*pam_unix.so" "auth [success=1 default=bad] pam_unix.so"
+line_replace "/etc/pam.d/password-auth" "^auth.*pam_unix.so" "\auth [success=1 default=bad] pam_unix.so"
 line_add "/etc/pam.d/system-auth" "auth required pam_faillock.so preauth audit silent deny=5 unlock_time=900"
 line_add "/etc/pam.d/system-auth" "auth [default=die] pam_faillock.so authfail audit deny=5 unlock_time=900"
 line_add "/etc/pam.d/system-auth" "auth sufficient pam_faillock.so authsucc audit deny=5 unlock_time=900"
-line_replace "/etc/pam.d/system-auth" "^auth.*pam_unix.so" "auth [success=1 default=bad] pam_unix.so"
+line_replace "/etc/pam.d/system-auth" "^auth.*pam_unix.so" "\auth [success=1 default=bad] pam_unix.so"
 
 # 5.3.3 Ensure password reuse is limited (Scored)
 log "CIS" "5.3.3 Ensure password reuse is limited (Scored)"

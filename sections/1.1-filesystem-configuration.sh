@@ -9,31 +9,31 @@
 # 1.1.1.1 Ensure mounting of cramfs filesystems is disabled (Scored)
 log "CIS" "1.1.1.1 Ensure mounting of cramfs filesystems is disabled (Scored)"
 line_replace "/etc/modprobe.d/CIS.conf" "^install cramfs" "install cramfs /bin/true"
-execute_command "rmmod cramfs"
+remove_module "cramfs"
 
 # 1.1.1.2 Ensure mounting of hfs filesystems is disabled (Scored)
 log "CIS" "1.1.1.2 Ensure mounting of hfs filesystems is disabled (Scored)"
 line_replace "/etc/modprobe.d/CIS.conf" "^install hfs" "install hfs /bin/true"
-execute_command "rmmod hfs"
+remove_module "hfs"
 
 # 1.1.1.3 Ensure mounting of hfsplus filesystems is disabled (Scored)
 log "CIS" "1.1.1.3 Ensure mounting of hfsplus filesystems is disabled (Scored)"
 line_replace "/etc/modprobe.d/CIS.conf" "^install hfsplus" "install hfsplus /bin/true"
-execute_command "rmmod hfsplus"
+remove_module "hfsplus"
 
 # 1.1.1.4 Ensure mounting of squashfs filesystems is disabled (Scored)
 log "CIS" "1.1.1.4 Ensure mounting of squashfs filesystems is disabled (Scored)"
 line_replace "/etc/modprobe.d/CIS.conf" "^install squashfs" "install squashfs /bin/true"
-execute_command "rmmod squashfs"
+remove_module "squashfs"
 
 # 1.1.1.5 Ensure mounting of udf filesystems is disabled (Scored)
 log "CIS" "1.1.1.5 Ensure mounting of udf filesystems is disabled (Scored)"
 line_replace "/etc/modprobe.d/CIS.conf" "^install udf" "install udf /bin/true"
-execute_command "rmmod udf"
+remove_module "udf"
 
 # 1.1.2 Ensure /tmp is configured (Scored)
 log "CIS" "1.1.2 Ensure /tmp is configured (Scored)"
-line_replace "/etc/fstab" "^tmpfs.*/tmp.*tmpfs" "tmpfs   \/tmp   tmpfs   defaults,rw,nosuid,nodev,noexec,relatime 0 0"
+line_replace "/etc/fstab" "^tmpfs(.*)\/tmp(.*)tmpfs" "tmpfs   /tmp   tmpfs   defaults,rw,nosuid,nodev,noexec,relatime 0 0"
 
 # 1.1.3 Ensure nodev option set on /tmp partition (Scored)
 log "CIS" "1.1.3 Ensure nodev option set on /tmp partition (Scored)"
@@ -104,7 +104,7 @@ execute_command "mount -o remount,noexec /dev/shm"
 
 # 1.1.18 Ensure sticky bit is set on all world-writable directories (Scored)
 log "CIS" "1.1.18 Ensure sticky bit is set on all world-writable directories (Scored)"
-execute_command "df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d -perm -0002 2>/dev/null | xargs chmod a+t"
+execute_command "df --local -P | awk {'if (NR!=1) print \$6'} | xargs -I '{}' find '{}' -xdev -type d -perm -0002 2>/dev/null | xargs chmod a+t"
 
 # 1.1.19 Disable Automounting (Scored)
 log "CIS" "1.1.19 Disable Automounting (Scored)"

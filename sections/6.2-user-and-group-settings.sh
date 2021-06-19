@@ -7,7 +7,7 @@
 
 # 6.2.1 Ensure password fields are not empty (Scored)
 log "CIS" "6.2.1 Ensure password fields are not empty (Scored)"
-execute_command "for user in `cat /etc/shadow | awk -F: '($2 == \"\") {print $1}'`; do passwd -l $user; done"
+execute_command "for user in `cat /etc/shadow | awk -F: '($2 == \"\") {print $1}'`; do passwd -l \$user; done"
 
 # 6.2.2 Ensure no legacy "+" entries exist in /etc/passwd (Scored)
 log "CIS" "6.2.2 Ensure no legacy \"+\" entries exist in /etc/passwd (Scored)"
@@ -23,7 +23,7 @@ execute_command "sed -i '/^+/ d' /etc/group"
 
 # 6.2.5 Ensure root is the only UID 0 account (Scored)
 log "CIS" "6.2.5 Ensure root is the only UID 0 account (Scored)"
-execute_command "for user in `cat /etc/passwd | awk -F: '($3==0 && $1!=\"root\") {print $1}'`; do passwd -l $user ; done"
+execute_command "for user in `cat /etc/passwd | awk -F: '($3==0 && $1!=\"root\") {print $1}'`; do passwd -l \$user ; done"
 
 # 6.2.6 Ensure root PATH Integrity (Scored)
 log "CIS" "6.2.6 Ensure root PATH Integrity (Scored)"
@@ -35,15 +35,15 @@ check_home_directries_exist
 
 # 6.2.8 Ensure users' home directories permissions are 750 or more restrictive (Scored)
 log "CIS" "6.2.8 Ensure users' home directories permissions are 750 or more restrictive (Scored)"
-execute_command "egrep -v '^(root|halt|sync|shutdown)' /etc/passwd | awk -F: '($7!=\"/sbin/nologin\" && $7!=\"/bin/false\") {print $6}' | while read dir; do chmod 0750 $dir; done"
+execute_command "egrep -v '^(root|halt|sync|shutdown)' /etc/passwd | awk -F: '(\$7!=\"/sbin/nologin\" && \$7!=\"/bin/false\") {print \$6}' | while read dir; do chmod 0750 \$dir; done"
 
 # 6.2.9 Ensure users own their home directories (Scored)
 log "CIS" "6.2.9 Ensure users own their home directories (Scored)"
-execute_command "egrep -v '^(root|halt|sync|shutdown)' /etc/passwd | awk -F: '($7!=\"/sbin/nologin\" && $7!=\"/bin/false\") {print $1 \" \" $6}' | while read user dir; do chown ${user}:${user} $dir; done"
+execute_command "egrep -v '^(root|halt|sync|shutdown)' /etc/passwd | awk -F: '(\$7!=\"/sbin/nologin\" && \$7!=\"/bin/false\") {print \$1 \" \" \$6}' | while read user dir; do chown \${user}:\${user} \$dir; done"
 
 # 6.2.10 Ensure users' dot files are not group or world writable (Scored)
 log "CIS" "6.2.10 Ensure users' dot files are not group or world writable (Scored)"
-execute_command "egrep -v '^(root|halt|sync|shutdown)' /etc/passwd | awk -F: '($7!=\"/sbin/nologin\" && $7!=\"/bin/false\") {print $6}' | while read dir; do find $dir/ -type f -name '.*' | xargs --no-run-if-empty chmod og-w; done"
+execute_command "egrep -v '^(root|halt|sync|shutdown)' /etc/passwd | awk -F: '(\$7!=\"/sbin/nologin\" && \$7!=\"/bin/false\") {print \$6}' | while read dir; do find \$dir/ -type f -name '.*' | xargs --no-run-if-empty chmod og-w; done"
 
 # 6.2.11 Ensure no users have .forward files (Scored)
 log "CIS" "6.2.11 Ensure no users have .forward files (Scored)"
@@ -55,7 +55,7 @@ unwanted_files ".netrc"
 
 # 6.2.13 Ensure users' .netrc Files are not group or world accessible (Scored)
 log "CIS" "6.2.13 Ensure users' .netrc Files are not group or world accessible (Scored)"
-execute_command "egrep -v '^(root|halt|sync|shutdown)' /etc/passwd | awk -F: '($7!=\"/sbin/nologin\" && $7!=\"/bin/false\") {print $6}' | while read dir; do if [ -d $dir/.netrc ]; then find $dir/.netrc -type f | xargs --no-run-if-empty chmod og-rwx; fi; done"
+execute_command "egrep -v '^(root|halt|sync|shutdown)' /etc/passwd | awk -F: '(\$7!=\"/sbin/nologin\" && \$7!=\"/bin/false\") {print \$6}' | while read dir; do if [ -d \$dir/.netrc ]; then find \$dir/.netrc -type f | xargs --no-run-if-empty chmod og-rwx; fi; done"
 
 # 6.2.14 Ensure no users have .rhosts files (Scored)
 log "CIS" "6.2.14 Ensure no users have .rhosts files (Scored)"

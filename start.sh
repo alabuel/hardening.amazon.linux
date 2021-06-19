@@ -24,7 +24,7 @@ set -a
 . sections/1.6-mandatory-access-control.sh
 . sections/1.7-warning-banners.sh
 . sections/2.1-special-purpose-services.sh
-. sections/2.2-service-client.sh
+. sections/2.2-service-clients.sh
 . sections/3.1-network-parameters-host-only.sh
 . sections/3.2-network-parameters-host-and-router.sh
 . sections/3.3-tcp-wrappers.sh

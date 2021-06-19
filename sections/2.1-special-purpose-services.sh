@@ -15,9 +15,9 @@ log "CIS" "2.1.1.1 Ensure time synchronization is in use (Not Scored)"
 # 2.1.1.2 Ensure ntp is configured (Scored)
 log "CIS" "2.1.1.2 Ensure ntp is configured (Scored)"
 if [ "$USE_NTP" == "yes" ]; then
-  line_replace "/etc/ntp.conf" "^restrict -4 default" "restrict -4 default kod nomodify notrap nopeer noquery"
-  line_replace "/etc/ntp.conf" "^restrict -6 default" "restrict -6 default kod nomodify notrap nopeer noquery"
-  line_replace "/etc/ntp.conf" "^server " "server $NTP_REMOTE_SERVER"
+  line_replace "/etc/ntp.conf" "restrict -4 default" "restrict -4 default kod nomodify notrap nopeer noquery"
+  line_replace "/etc/ntp.conf" "restrict -6 default" "restrict -6 default kod nomodify notrap nopeer noquery"
+  [ ! -z "$NTP_REMOTE_SERVER" ] && line_replace "/etc/ntp.conf" "^server " "server $NTP_REMOTE_SERVER" || skip "no NTP remote server configured"
   line_replace "/etc/ntp.conf" "^OPTIONS=" "OPTIONS=\"-u ntp:ntp\""
 else
   skip "NTP not in use"

@@ -31,13 +31,13 @@ package_remove "mcstrans"
 # 1.6.1.6 Ensure no unconfined daemons exist (Scored)
 log "CIS" "1.6.1.6 Ensure no unconfined daemons exist (Scored)"
 unconfined_daemons=$(ps -eZ | egrep "initrc" | egrep -vw "tr|ps|egrep|bash|awk" | tr ':' ' ' | awk '{ print $NF }')
-if [ $unconfined_daemons == "" ]; then
+if [ "$unconfined_daemons" == "" ]; then
   printf "${GREEN}ok: (unconfined daemons) => none${NOCOLOR}\n"
-  $OK=$((OK + 1))
+  OK=$((OK + 1))
 else
   printf "${RED}failed: (unconfined daemons) => ${unconfined_daemons}${NOCOLOR}\n"
   printf "${RED}  => Investigate any unconfined daemons found during the audit action. They may need to have an existing security context assigned to them or a policy built for them.${NOCOLOR}\n"
-  $FAILED=$((FAILED + 1))
+  FAILED=$((FAILED + 1))
 fi
 
 # 1.6.2 Ensure SELinux is installed (Scored)

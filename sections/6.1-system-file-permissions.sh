@@ -8,7 +8,7 @@
 
 # 6.1.1 Audit system file permissions (Not Scored)
 log "CIS" "6.1.1 Audit system file permissions (Not Scored)"
-execute_command "rpm -Va --nomtime --nosize --nomd5 --nolinkto > packages.audit"
+execute_command "rpm -Va --nomtime --nosize --nomd5 --nolinkto > packages.audit" "ignore"
 skip "review all installed packages from packages.audit file"
 
 # 6.1.2 Ensure permissions on /etc/passwd are configured (Scored)
@@ -53,24 +53,24 @@ execute_command "chmod 000 /etc/gshadow-"
 
 # 6.1.10 Ensure no world writable files exist (Scored)
 log "CIS" "6.1.10 Ensure no world writable files exist (Scored)"
-execute_command "df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type f -perm -0002 | xargs -I '{}' chmod o-w '{}'"
+execute_command "df --local -P | awk {'if (NR!=1) print \$6'} | xargs -I '{}' find '{}' -xdev -type f -perm -0002 | xargs -I '{}' chmod o-w '{}'"
 
 # 6.1.11 Ensure no unowned files or directories exist (Scored)
 log "CIS" "6.1.11 Ensure no unowned files or directories exist (Scored)"
-execute_command "df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -nouser | xargs -I '{}' chown root:root '{}'"
+execute_command "df --local -P | awk {'if (NR!=1) print \$6'} | xargs -I '{}' find '{}' -xdev -nouser | xargs -I '{}' chown root:root '{}'"
 
 # 6.1.12 Ensure no ungrouped files or directories exist (Scored)
 log "CIS" "6.1.12 Ensure no ungrouped files or directories exist (Scored)"
-execute_command "df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -nogroup | xargs -I '{}' chgrp root '{}'"
+execute_command "df --local -P | awk {'if (NR!=1) print \$6'} | xargs -I '{}' find '{}' -xdev -nogroup | xargs -I '{}' chgrp root '{}'"
 
 # 6.1.13 Audit SUID executables (Not Scored)
 log "CIS" "6.1.13 Audit SUID executables (Not Scored)"
-execute_command "df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type f -perm -4000"
+execute_command "df --local -P | awk {'if (NR!=1) print \$6'} | xargs -I '{}' find '{}' -xdev -type f -perm -4000"
 skip "Ensure that no rogue SUID programs have been introduced into the system. Review the files returned by the action in the Audit section and confirm the integrity of these binaries."
 
 # 6.1.14 Audit SGID executables (Not Scored)
 log "CIS" "6.1.14 Audit SGID executables (Not Scored)"
-execute_command "df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type f -perm -2000"
+execute_command "df --local -P | awk {'if (NR!=1) print \$6'} | xargs -I '{}' find '{}' -xdev -type f -perm -2000"
 skip "Ensure that no rogue SGID programs have been introduced into the system. Review the files returned by the action in the Audit section and confirm the integrity of these binaries."
 
 
