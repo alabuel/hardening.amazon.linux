@@ -137,7 +137,14 @@ line_add()
 {
   target="$1"
   insertline="$2"
-  execute_command "echo '$insertline' | tee -a $target"
+  found=$(grep "$insertline" $target)
+  if [ -f $target ] && [ -z "$found" ]; then
+    execute_command "echo '$insertline' | tee -a $target"
+  elif [ -f $target ] && [ ! -z "$found" ]; then
+    printf "${GREEN}ok: (%s) => %s${NOCOLOR}\n" "$insertline" "already existing. no change required"
+  elif [ ! -f $target ]; then
+    execute_command "echo '$insertline' | tee -a $target"
+  fi
 }
 
 line_replace()
